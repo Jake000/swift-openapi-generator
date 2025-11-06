@@ -159,4 +159,4 @@ extension FileTranslator {
 /// An unresolved OpenAPI response header.
 ///
 /// Can be either a reference or an inline response header.
-typealias UnresolvedResponseHeader = Either<OpenAPI.Reference<OpenAPI.Header>, OpenAPI.Header>
+typealias UnresolvedResponseHeader = OpenAPI.EitherReference<OpenAPI.Header>

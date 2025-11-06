@@ -31,7 +31,7 @@ extension TypesFileTranslator {
     ///   instead of extracted from the schema.
     /// - Throws: An error if there is an issue during translation.
     /// - Returns: A list of declarations representing the translated schema.
-    func translateSchema(typeName: TypeName, schema: UnresolvedSchema?, overrides: SchemaOverrides) throws
+    func translateSchema(typeName: TypeName, schema: UnresolvedSchema?, overrides: SchemaOverrides, isMultipartContent: Bool = false) throws
         -> [Declaration]
     {
         let unwrappedSchema: JSONSchema
@@ -46,7 +46,7 @@ extension TypesFileTranslator {
             // fragment
             unwrappedSchema = .fragment
         }
-        return try translateSchema(typeName: typeName, schema: unwrappedSchema, overrides: overrides)
+        return try translateSchema(typeName: typeName, schema: unwrappedSchema, overrides: overrides, isMultipartContent: isMultipartContent)
     }
 
     /// Returns a list of declarations for the specified schema.

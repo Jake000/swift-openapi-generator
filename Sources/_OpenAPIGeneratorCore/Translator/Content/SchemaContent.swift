@@ -51,4 +51,4 @@ struct TypedSchemaContent {
 /// An unresolved OpenAPI schema.
 ///
 /// Can be either a reference or an inline schema.
-typealias UnresolvedSchema = Either<OpenAPI.Reference<JSONSchema>, JSONSchema>
+typealias UnresolvedSchema = OpenAPI.EitherReference<JSONSchema>

@@ -210,7 +210,7 @@ extension FileTranslator {
 /// An unresolved OpenAPI parameter.
 ///
 /// Can be either a reference or an inline parameter.
-typealias UnresolvedParameter = Either<OpenAPI.Reference<OpenAPI.Parameter>, OpenAPI.Parameter>
+typealias UnresolvedParameter = OpenAPI.EitherReference<OpenAPI.Parameter>
 
 extension OpenAPI.Parameter.Context.Location {
 

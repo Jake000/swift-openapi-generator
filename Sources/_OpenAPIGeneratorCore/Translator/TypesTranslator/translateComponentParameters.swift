@@ -20,13 +20,13 @@ extension TypesFileTranslator {
     /// - Parameter parameters: The reusable request parameters.
     /// - Returns: An enum declaration representing the parameters namespace.
     /// - Throws: An error if there's an issue during translation or parameter processing.
-    func translateComponentParameters(_ parameters: OpenAPI.ComponentDictionary<OpenAPI.Parameter>) throws
+    func translateComponentParameters(_ parameters: OpenAPI.ReferenceDictionary<OpenAPI.Parameter>) throws
         -> Declaration
     {
 
         let typedParameters: [(OpenAPI.ComponentKey, TypedParameter)] = try parameters.compactMap { key, parameter in
             let parent = typeAssigner.typeName(for: key, of: OpenAPI.Parameter.self)
-            guard let value = try parseAsTypedParameter(from: .b(parameter), inParent: parent) else { return nil }
+            guard let value = try parseAsTypedParameter(from: parameter, inParent: parent) else { return nil }
             return (key, value)
         }
         let decls: [Declaration] = try typedParameters.flatMap { key, value in

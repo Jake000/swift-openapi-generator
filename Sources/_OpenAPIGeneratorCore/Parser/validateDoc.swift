@@ -66,8 +66,15 @@ func validateContentTypes(in doc: ParsedOpenAPIRepresentation, validate: (String
         }
     }
 
-    for (key, component) in doc.components.requestBodies {
-        for contentType in component.content.keys {
+    for (key, unresolvedRequest) in doc.components.requestBodies {
+        let resolvedRequest: OpenAPI.Request
+        switch unresolvedRequest {
+        case let .a(reference):
+            resolvedRequest = try doc.components.lookup(reference)
+        case let .b(resolved):
+            resolvedRequest = resolved
+        }
+        for contentType in resolvedRequest.content.keys {
             if !validate(contentType.rawValue) {
                 throw Diagnostic.error(
                     message: "Invalid content type string.",
@@ -80,8 +87,15 @@ func validateContentTypes(in doc: ParsedOpenAPIRepresentation, validate: (String
         }
     }
 
-    for (key, component) in doc.components.responses {
-        for contentType in component.content.keys {
+    for (key, unresolvedResponse) in doc.components.responses {
+        let resolvedResponse: OpenAPI.Response
+        switch unresolvedResponse {
+        case let .a(reference):
+            resolvedResponse = try doc.components.lookup(reference)
+        case let .b(resolved):
+            resolvedResponse = resolved
+        }
+        for contentType in resolvedResponse.content.keys {
             if !validate(contentType.rawValue) {
                 throw Diagnostic.error(
                     message: "Invalid content type string.",

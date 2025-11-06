@@ -20,10 +20,17 @@ extension TypesFileTranslator {
     /// - Parameter responses: The reusable responses.
     /// - Returns: An enum declaration representing the responses namespace.
     /// - Throws: An error if there's an issue during translation or request body processing
-    func translateComponentResponses(_ responses: OpenAPI.ComponentDictionary<OpenAPI.Response>) throws -> Declaration {
+    func translateComponentResponses(_ responses: OpenAPI.ReferenceDictionary<OpenAPI.Response>) throws -> Declaration {
 
-        let typedResponses: [TypedResponse] = responses.map { key, response in
+        let typedResponses: [TypedResponse] = try responses.map { key, unresolvedResponse in
             let typeName = typeAssigner.typeName(for: key, of: OpenAPI.Response.self)
+            let response: OpenAPI.Response
+            switch unresolvedResponse {
+            case let .a(reference):
+                response = try components.lookup(reference)
+            case let .b(resolved):
+                response = resolved
+            }
             let value = TypedResponse(response: response, typeUsage: typeName.asUsage, isInlined: false)
             return value
         }

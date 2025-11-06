@@ -376,7 +376,7 @@ struct TypeAssigner {
     /// - Parameter component: The component for which to compute a name.
     /// - Returns: A type name for a reusable component.
     func typeName<Component: ComponentDictionaryLocatable>(
-        for component: OpenAPI.ComponentDictionary<Component>.Element
+        for component: OpenAPI.ReferenceDictionary<Component>.Element
     ) -> TypeName { typeName(for: component.key, of: Component.self) }
 
     /// Returns a type name for a reusable component key.

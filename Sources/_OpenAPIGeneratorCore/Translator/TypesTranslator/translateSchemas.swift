@@ -30,7 +30,7 @@ extension TypesFileTranslator {
     /// if the specified schema contains unnamed types that need to be declared
     /// inline.
     /// - Throws: An error if there is an issue during the matching process.
-    func translateSchema(componentKey: OpenAPI.ComponentKey, schema: JSONSchema, isMultipartContent: Bool) throws
+    func translateSchema(componentKey: OpenAPI.ComponentKey, schema: OpenAPI.EitherReference<JSONSchema>, isMultipartContent: Bool) throws
         -> [Declaration]
     {
         guard try validateSchemaIsSupported(schema, foundIn: "#/components/schemas/\(componentKey.rawValue)") else {
@@ -54,7 +54,7 @@ extension TypesFileTranslator {
     /// components namespace.
     /// - Throws: An error if there is an issue during schema translation.
     func translateSchemas(
-        _ schemas: OpenAPI.ComponentDictionary<JSONSchema>,
+        _ schemas: OpenAPI.ReferenceDictionary<JSONSchema>,
         multipartSchemaNames: Set<OpenAPI.ComponentKey>
     ) throws -> Declaration {
         let decls: [Declaration] = try schemas.flatMap { key, value in
